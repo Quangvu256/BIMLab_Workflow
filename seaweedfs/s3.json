@@ -1,0 +1,20 @@
+{
+  "identities": [
+    {
+      "name": "bimlab_admin",
+      "credentials": [
+        {
+          "accessKey": "bimlab_s3_key_2026",
+          "secretKey": "bimlab_s3_secret_2026"
+        }
+      ],
+      "actions": [
+        "Read",
+        "Write",
+        "List",
+        "Tagging",
+        "Admin"
+      ]
+    }
+  ]
+}

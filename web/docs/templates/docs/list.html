@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Quy trình BIM - BIMLab Workflow{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Header Tối giản & Tinh gọn -->
+    <div class="border-b border-slate-200 pb-4 pt-2">
+        <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
+            Tài liệu Quy trình Kỹ thuật BIM
+        </h1>
+        <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            Tra cứu tiêu chuẩn dựng hình, điều phối xung đột và nghiệm thu chất lượng mô hình BIM Lab.
+        </p>
+    </div>
+
+    <!-- Bộ lọc Ngang (Bộ môn & Luồng) -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-200 pb-3">
+        <!-- Tabs Bộ môn -->
+        <div class="flex items-center gap-1 overflow-x-auto pb-1 sm:pb-0 text-xs font-medium">
+            <a href="?{% if selected_flow %}flow={{ selected_flow }}&{% endif %}{% if query %}q={{ query }}{% endif %}"
+                class="px-3 py-1.5 rounded-md whitespace-nowrap transition-colors {% if not selected_dept %}bg-slate-900 text-white font-semibold{% else %}text-slate-600 hover:text-slate-900 hover:bg-slate-100{% endif %}">
+                Tất cả ({{ total_count }})
+            </a>
+            {% for dept in departments %}
+            <a href="?department={{ dept.code }}{% if selected_flow %}&flow={{ selected_flow }}{% endif %}{% if query %}&q={{ query }}{% endif %}"
+                class="px-3 py-1.5 rounded-md whitespace-nowrap transition-colors {% if selected_dept == dept.code %}bg-slate-900 text-white font-semibold{% else %}text-slate-600 hover:text-slate-900 hover:bg-slate-100{% endif %}">
+                {{ dept.name }}
+            </a>
+            {% endfor %}
+        </div>
+
+        <!-- Dropdown Luồng công việc -->
+        <div class="flex items-center gap-2 text-xs flex-shrink-0">
+            <span class="text-slate-400">Luồng:</span>
+            <select onchange="location = this.value;" class="bg-white border border-slate-200 rounded px-2 py-1 text-slate-700 text-xs outline-none focus:border-slate-400">
+                <option value="?{% if selected_dept %}department={{ selected_dept }}&{% endif %}{% if query %}q={{ query }}{% endif %}">Tất cả luồng</option>
+                {% for wf in workflows %}
+                <option value="?flow={{ wf.slug }}{% if selected_dept %}&department={{ selected_dept }}{% endif %}{% if query %}&q={{ query }}{% endif %}" {% if selected_flow == wf.slug %}selected{% endif %}>
+                    {{ wf.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <!-- Danh sách Quy trình Dạng Bảng Phẳng -->
+    {% if documents %}
+    <div class="bg-white border border-slate-200 rounded-lg overflow-hidden divide-y divide-slate-100">
+        {% for doc in documents %}
+        <div class="p-4 sm:px-5 sm:py-3.5 hover:bg-slate-50/80 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex-1 min-w-0 pr-4">
+                <div class="flex items-center gap-2 mb-1">
+                    <span class="font-mono text-xs font-semibold text-slate-700 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">
+                        {{ doc.code }}
+                    </span>
+                    <span class="text-[11px] text-slate-400">
+                        {{ doc.department.code }} · {{ doc.workflow.name }}
+                    </span>
+                    {% if doc.status == 'DRAFT' %}
+                    <span class="text-[10px] bg-amber-50 text-amber-700 px-1.5 py-0.5 rounded border border-amber-200 font-semibold">DRAFT</span>
+                    {% endif %}
+                </div>
+                <h2 class="text-sm sm:text-base font-semibold text-slate-900 hover:text-sky-600 transition-colors">
+                    <a href="{{ doc.get_absolute_url }}" class="block">
+                        {{ doc.title }}
+                    </a>
+                </h2>
+            </div>
+
+            <!-- Meta & Nút Xem -->
+            <div class="flex items-center gap-3 sm:gap-4 text-xs text-slate-400 flex-shrink-0 self-end sm:self-center">
+                <span class="text-[11px] text-slate-400">{{ doc.updated_at|date:"d/m/Y" }}</span>
+                <a href="{{ doc.get_absolute_url }}" class="text-slate-700 hover:text-slate-900 font-medium px-2.5 py-1 rounded border border-slate-200 bg-white hover:bg-slate-50 text-xs transition-colors">
+                    Xem →
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <!-- Trạng thái trống -->
+    <div class="bg-white border border-slate-200 rounded-lg p-10 text-center">
+        <p class="text-sm font-medium text-slate-700">Không tìm thấy quy trình phù hợp</p>
+        <p class="text-xs text-slate-400 mt-1">Vui lòng thử lại với từ khóa hoặc bộ môn khác.</p>
+        <a href="{% url 'doc_list' %}" class="inline-block mt-3 text-xs text-slate-700 underline font-medium">
+            Xóa bộ lọc
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

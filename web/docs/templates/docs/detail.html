@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block title %}[{{ doc.code }}] {{ doc.title }} - BIMLab Workflow{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-1.5 text-xs text-slate-400 no-print">
+        <a href="{% url 'doc_list' %}" class="hover:text-slate-700 transition-colors">Quy trình</a>
+        <span>/</span>
+        <a href="{% url 'doc_list' %}?department={{ doc.department.code }}" class="hover:text-slate-700 transition-colors">
+            {{ doc.department.code }}
+        </a>
+        <span>/</span>
+        <span class="text-slate-600 font-mono">{{ doc.code }}</span>
+    </nav>
+
+    <!-- Header Bài viết: Tinh gọn -->
+    <div class="border-b border-slate-200 pb-5 print-hide">
+        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            <div class="space-y-2 max-w-3xl">
+                <div class="flex items-center gap-2">
+                    <span class="font-mono text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
+                        {{ doc.code }}
+                    </span>
+                    <span class="text-xs text-slate-500 font-medium">
+                        {{ doc.department.name }}
+                    </span>
+                    <span class="text-slate-300">·</span>
+                    <span class="text-xs text-slate-400">
+                        {{ doc.workflow.name }}
+                    </span>
+                    <span class="text-slate-300">·</span>
+                    <span class="text-xs text-slate-400">
+                        Cập nhật: {{ doc.updated_at|date:"d/m/Y" }}
+                    </span>
+                    {% if doc.status == 'DRAFT' %}
+                    <span class="text-[10px] bg-amber-50 text-amber-700 px-1.5 py-0.5 rounded border border-amber-200 font-semibold">DRAFT</span>
+                    {% endif %}
+                </div>
+
+                <h1 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight leading-snug">
+                    {{ doc.title }}
+                </h1>
+            </div>
+
+            <!-- Nút Hành động Tinh gọn -->
+            <div id="action-buttons" class="flex items-center gap-2 flex-shrink-0 self-start">
+                <button type="button" class="btn-print-document inline-flex items-center gap-1.5 px-3 py-1.5 rounded border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-medium transition-colors">
+                    <i class="fa-solid fa-print text-slate-400 text-xs"></i>
+                    <span>In / PDF</span>
+                </button>
+
+                <button type="button" id="btn-copy-link" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-medium transition-colors">
+                    <i class="fa-regular fa-copy text-slate-400 text-xs"></i>
+                    <span>Chép link</span>
+                </button>
+
+                {% if user.is_staff %}
+                <a href="{% url 'admin:docs_document_change' doc.pk %}" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-medium transition-colors">
+                    <i class="fa-solid fa-pen text-slate-400 text-xs"></i>
+                    <span>Sửa</span>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Layout 2 Cột -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Cột Nội dung Chính -->
+        <article class="lg:col-span-8 bg-white border border-slate-200 rounded-lg p-6 sm:p-8 print-full-width shadow-none">
+            
+            <!-- Header khi In A4 (@media print) -->
+            <div class="hidden print-header mb-6">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-4 text-xs">
+                    <div>
+                        <div class="font-bold text-slate-900 uppercase">BIM LAB - QUY TRÌNH KỸ THUẬT (SOP)</div>
+                    </div>
+                    <div class="text-right font-mono">
+                        <div>{{ doc.code }}</div>
+                    </div>
+                </div>
+                <h1 class="text-xl font-bold text-slate-900 mb-2">{{ doc.title }}</h1>
+                <div class="text-xs text-slate-500 mb-4">Bộ môn: {{ doc.department.name }} | {% now "d/m/Y" %}</div>
+            </div>
+
+            {% if not effective_is_html and doc.content_type == 'MARKDOWN' %}
+            <!-- Khối Render Nội dung Markdown -->
+            <div class="prose-bimlab max-w-none text-sm leading-relaxed text-slate-700">
+                {{ rendered_content|safe }}
+            </div>
+            {% elif effective_is_html or doc.content_type == 'HTML' %}
+            <!-- Khối Nhúng File HTML Độc lập (Iframe Sandbox An toàn) -->
+            <div class="space-y-3">
+                <div class="text-xs text-slate-400 flex items-center justify-between">
+                    <span>Tài liệu HTML độc lập (Single-file)</span>
+                    <a href="{{ html_url }}" target="_blank" class="text-sky-600 hover:underline">Mở toàn màn hình ↗</a>
+                </div>
+                <iframe src="{{ html_url }}" class="w-full h-[75vh] border border-slate-200 rounded-md bg-white" sandbox="allow-scripts"></iframe>
+            </div>
+            {% endif %}
+        </article>
+
+        <!-- Cột Phải: Cây Mục lục Tối giản (Sticky TOC) -->
+        <aside id="sidebar-toc" class="lg:col-span-4 space-y-5 sticky top-20 no-print">
+            {% if toc_html %}
+            <div class="p-4 bg-white border border-slate-200 rounded-lg">
+                <div class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2.5">
+                    Mục lục
+                </div>
+                <div class="toc text-xs space-y-1 max-h-[70vh] overflow-y-auto">
+                    {{ toc_html|safe }}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Quy trình liên quan -->
+            {% if related_docs %}
+            <div class="p-4 bg-white border border-slate-200 rounded-lg text-xs">
+                <div class="font-semibold uppercase tracking-wider text-slate-400 mb-2">
+                    Cùng bộ môn
+                </div>
+                <ul class="space-y-2">
+                    {% for rd in related_docs %}
+                    <li>
+                        <a href="{{ rd.get_absolute_url }}" class="text-slate-600 hover:text-slate-900 transition-colors block truncate">
+                            <span class="font-mono text-slate-400 mr-1">[{{ rd.code }}]</span>
+                            <span>{{ rd.title }}</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </aside>
+
+    </div>
+</div>
+{% endblock %}

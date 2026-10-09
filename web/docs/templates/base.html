@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}BIMLab Workflow - Hệ thống Quy trình & Tiêu chuẩn Kỹ thuật BIM{% endblock %}</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (Play CDN for flat, clean utility styling) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Menlo', 'Monaco', 'Courier New', 'monospace'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Viewer Custom Styles (A4 print, soft callouts, markdown prose) -->
+    <link rel="stylesheet" href="{% static 'css/viewer.css' %}">
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="h-full flex flex-col font-sans text-slate-800 antialiased selection:bg-sky-100 selection:text-sky-900 bg-slate-50">
+    <!-- Top Minimalist Navigation Bar -->
+    <header class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-14">
+                <!-- Brand / Logo -->
+                <div class="flex items-center gap-3">
+                    <a href="{% url 'doc_list' %}" class="flex items-center gap-2.5 text-slate-900 hover:text-sky-600 transition-colors">
+                        <div class="w-7 h-7 rounded bg-slate-900 flex items-center justify-center text-white font-bold text-xs tracking-wider">
+                            BIM
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-sm font-semibold tracking-tight text-slate-900">BIMLab Docs</span>
+                            <span class="text-[10px] text-slate-400 font-normal leading-none">Quy trình & Tiêu chuẩn Kỹ thuật</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Right Actions -->
+                <div class="flex items-center gap-3">
+                    <a href="{% url 'doc_list' %}" class="text-xs font-medium text-slate-600 hover:text-slate-900 px-2.5 py-1.5 rounded hover:bg-slate-100 transition-colors">
+                        Tất cả Quy trình
+                    </a>
+                    
+                    {% if user.is_staff %}
+                    <a href="{% url 'admin:index' %}" class="inline-flex items-center gap-1.5 text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded border border-slate-200 transition-colors">
+                        <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        Admin CMS
+                    </a>
+                    {% else %}
+                    <a href="{% url 'admin:login' %}?next={{ request.path }}" class="inline-flex items-center gap-1 text-xs font-medium text-slate-500 hover:text-slate-800 px-2 py-1 transition-colors">
+                        Quản trị viên
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Minimalist Footer -->
+    <footer class="mt-auto border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-400 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2">
+            <div>
+                © 2026 BIMLab Technical Documentation. Hệ thống Lưu trữ SeaweedFS & Phục vụ Tài liệu Nội bộ.
+            </div>
+            <div class="flex items-center gap-4 text-slate-400">
+                <span>Kiến trúc v3 (PostgreSQL 16 · SeaweedFS · X-Accel-Redirect)</span>
+            </div>
+        </div>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

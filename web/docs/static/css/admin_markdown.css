@@ -1,0 +1,277 @@
+/* ==========================================================================
+   BIMLab Admin Markdown Editor & HTML Upload Styling
+   ========================================================================== */
+
+/* 1. Markdown Editor Layout */
+.markdown-editor-wrapper {
+    margin-top: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* 2. Editor Toolbar */
+.markdown-toolbar {
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 8px 12px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+}
+
+.markdown-toolbar-group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border-right: 1px solid #e2e8f0;
+    padding-right: 8px;
+    margin-right: 4px;
+}
+
+.markdown-toolbar-btn {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 5px;
+    padding: 4px 9px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #334155;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.15s ease;
+}
+
+.markdown-toolbar-btn:hover {
+    background: #f1f5f9;
+    border-color: #94a3b8;
+    color: #0f172a;
+}
+
+.markdown-toolbar-btn.active {
+    background: #0284c7;
+    color: #ffffff;
+    border-color: #0284c7;
+}
+
+.markdown-upload-badge {
+    margin-left: auto;
+    font-size: 12px;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #f1f5f9;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    border: 1px solid #e2e8f0;
+}
+
+/* 3. Split Editor Container */
+.markdown-split-container {
+    display: flex;
+    min-height: 520px;
+    background: #ffffff;
+}
+
+.markdown-pane {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: #ffffff;
+}
+
+.markdown-preview-pane {
+    flex: 1;
+    border-left: 1px solid #e2e8f0;
+    background: #ffffff;
+    padding: 18px 24px;
+    overflow-y: auto;
+    max-height: 750px;
+    min-width: 0;
+}
+
+.markdown-preview-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #64748b;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 6px;
+}
+
+/* 4. Markdown Textarea (BRIGHT, CRISP, HIGH CONTRAST) */
+#id_content_markdown {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 520px !important;
+    border: none !important;
+    outline: none !important;
+    padding: 16px 20px !important;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace !important;
+    font-size: 13.5px !important;
+    line-height: 1.65 !important;
+    color: #0f172a !important;
+    background-color: #ffffff !important;
+    resize: vertical !important;
+    box-sizing: border-box !important;
+}
+
+#id_content_markdown::placeholder {
+    color: #94a3b8 !important;
+}
+
+/* 5. Live Preview Prose Formatting */
+.preview-prose h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 0.25rem;
+}
+
+.preview-prose h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 0.2rem;
+}
+
+.preview-prose h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #334155;
+    margin-top: 1rem;
+    margin-bottom: 0.4rem;
+}
+
+.preview-prose p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #334155;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.preview-prose ul {
+    list-style-type: disc;
+    padding-left: 1.25rem;
+    font-size: 13px;
+    color: #334155;
+}
+
+.preview-prose ol {
+    list-style-type: decimal;
+    padding-left: 1.25rem;
+    font-size: 13px;
+    color: #334155;
+}
+
+.preview-prose table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 12px;
+}
+
+.preview-prose th,
+.preview-prose td {
+    border: 1px solid #cbd5e1;
+    padding: 6px 10px;
+    text-align: left;
+}
+
+.preview-prose th {
+    background: #f8fafc;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.preview-prose blockquote {
+    border-left: 4px solid #0284c7;
+    background: #f0f9ff;
+    padding: 8px 12px;
+    margin: 10px 0;
+    border-radius: 0 4px 4px 0;
+    font-size: 12.5px;
+    color: #0369a1;
+}
+
+.preview-prose blockquote.warning {
+    border-left-color: #f59e0b;
+    background: #fffbeb;
+    color: #b45309;
+}
+
+.preview-prose img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    margin: 10px 0;
+}
+
+/* 6. HTML Upload Card Widget */
+.html-upload-card {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 8px;
+    margin-bottom: 15px;
+}
+
+.html-dropzone {
+    border: 2px dashed #0284c7;
+    background: #f0f9ff;
+    border-radius: 8px;
+    padding: 28px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 16px;
+}
+
+.html-dropzone:hover,
+.html-dropzone.dragover {
+    background: #e0f2fe;
+    border-color: #0369a1;
+}
+
+.html-current-file-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.html-preview-frame {
+    width: 100%;
+    height: 420px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background: #ffffff;
+    margin-top: 8px;
+}

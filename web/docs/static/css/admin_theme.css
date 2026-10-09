@@ -1,0 +1,486 @@
+/* ==========================================================================
+   BIMLab Modern & Clean Admin Theme (Unified Light & High Contrast)
+   ========================================================================== */
+
+/* 1. Global Django CSS Variables Override (Neutralizes Dark Mode Clashes) */
+:root,
+html,
+body,
+[data-theme="dark"],
+[data-theme="light"] {
+    --primary: #0284c7 !important;
+    --primary-hover: #0369a1 !important;
+    --primary-light: #f0f9ff !important;
+    --primary-fg: #ffffff !important;
+    --secondary: #0f172a !important;
+    --accent: #38bdf8 !important;
+
+    --body-bg: #f8fafc !important;
+    --body-fg: #0f172a !important;
+    --body-quiet-color: #64748b !important;
+    --darkened-bg: #f1f5f9 !important;
+    --selected-bg: #e0f2fe !important;
+    --selected-row: #f0f9ff !important;
+
+    --header-bg: #0f172a !important;
+    --header-color: #0f172a !important;
+    --header-branding-color: #ffffff !important;
+    --header-link-color: #e2e8f0 !important;
+
+    --breadcrumbs-bg: #ffffff !important;
+    --breadcrumbs-fg: #64748b !important;
+    --breadcrumbs-link-fg: #334155 !important;
+
+    --link-fg: #0284c7 !important;
+    --link-hover-color: #0369a1 !important;
+    --link-selected-fg: #0284c7 !important;
+
+    --hairline-color: #e2e8f0 !important;
+    --border-color: #cbd5e1 !important;
+
+    --message-success-bg: #ecfdf5 !important;
+    --message-warning-bg: #fffbeb !important;
+    --message-error-bg: #fef2f2 !important;
+
+    --close-button-bg: #94a3b8 !important;
+    --close-button-hover-bg: #64748b !important;
+    color-scheme: light !important;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root,
+    html,
+    body {
+        color-scheme: light !important;
+        --primary: #0284c7 !important;
+        --body-bg: #f8fafc !important;
+        --body-fg: #0f172a !important;
+        --body-quiet-color: #64748b !important;
+        --darkened-bg: #f1f5f9 !important;
+        --selected-bg: #e0f2fe !important;
+        --selected-row: #e0f2fe !important;
+        --header-bg: #0f172a !important;
+        --header-color: #0f172a !important;
+        --header-branding-color: #ffffff !important;
+        --header-link-color: #e2e8f0 !important;
+        --hairline-color: #e2e8f0 !important;
+        --border-color: #cbd5e1 !important;
+    }
+}
+
+/* 2. Global Reset & Typography */
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    background-color: #f8fafc !important;
+    color: #0f172a !important;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+}
+
+/* Hide Django's native theme toggle button to prevent accidental dark mode switch */
+.theme-toggle {
+    display: none !important;
+}
+
+/* 3. Top Header Navigation */
+#header {
+    background: #0f172a !important;
+    color: #ffffff !important;
+    padding: 10px 24px !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+#header #branding h1,
+#header #branding #site-name a {
+    color: #ffffff !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.01em !important;
+    text-decoration: none !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+#user-tools {
+    color: #94a3b8 !important;
+    font-size: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+#user-tools a {
+    color: #e2e8f0 !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+    padding: 4px 8px !important;
+    border-radius: 4px !important;
+    transition: background 0.15s ease !important;
+}
+
+#user-tools a:hover {
+    background: rgba(255, 255, 255, 0.12) !important;
+    color: #ffffff !important;
+}
+
+/* 4. Breadcrumbs */
+div.breadcrumbs {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding: 10px 24px !important;
+    color: #64748b !important;
+    font-size: 12px !important;
+}
+
+div.breadcrumbs a {
+    color: #334155 !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+}
+
+div.breadcrumbs a:hover {
+    color: #0284c7 !important;
+}
+
+/* 5. SIDEBAR NAVIGATION (#nav-sidebar) - FIX TRIỆT ĐỂ LỖI ZEBRA VÀ CHỮ VÀNG */
+#nav-sidebar {
+    background: #ffffff !important;
+    border-right: 1px solid #e2e8f0 !important;
+    box-shadow: 1px 0 3px rgba(0,0,0,0.02) !important;
+}
+
+.toggle-nav-sidebar {
+    background: #f8fafc !important;
+    border-right: 1px solid #e2e8f0 !important;
+    color: #64748b !important;
+}
+
+#nav-sidebar #nav-filter {
+    background: #f8fafc !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding: 10px 14px !important;
+}
+
+#nav-sidebar #nav-filter input {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 6px !important;
+    padding: 6px 10px !important;
+    font-size: 12px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+#nav-sidebar .module {
+    background: #ffffff !important;
+    border: none !important;
+    box-shadow: none !important;
+    margin-bottom: 8px !important;
+    padding: 0 !important;
+}
+
+/* Tiêu đề Phân mục (App Headers) - Đè triệt để selector của nav_sidebar.css */
+#nav-sidebar .current-app .section,
+#nav-sidebar .current-app .section:link,
+#nav-sidebar .current-app .section:visited,
+#nav-sidebar .current-app a.section:link,
+#nav-sidebar .current-app a.section:visited,
+#nav-sidebar .current-app caption a,
+#nav-sidebar .current-app caption a:link,
+#nav-sidebar .current-app caption a:visited,
+#nav-sidebar .module caption,
+#nav-sidebar .module caption a,
+#nav-sidebar .module caption a:link,
+#nav-sidebar .module caption a:visited,
+#nav-sidebar .module h2,
+#nav-sidebar caption,
+#nav-sidebar caption a,
+#nav-sidebar caption a:link,
+#nav-sidebar caption a:visited,
+#nav-sidebar .section,
+#nav-sidebar .section:link,
+#nav-sidebar .section:visited,
+#nav-sidebar a.section,
+#nav-sidebar a.section:link,
+#nav-sidebar a.section:visited,
+#nav-sidebar th a.section,
+#nav-sidebar th a.section:link,
+#nav-sidebar th a.section:visited {
+    background: #f1f5f9 !important;
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    padding: 8px 14px !important;
+    border-top: 1px solid #e2e8f0 !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    display: block !important;
+    text-align: left !important;
+    text-decoration: none !important;
+}
+
+/* Bảng danh sách Models bên trong Sidebar */
+#nav-sidebar table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    background: #ffffff !important;
+}
+
+#nav-sidebar tr,
+#nav-sidebar tr:nth-child(even),
+#nav-sidebar tr:nth-child(odd) {
+    background: #ffffff !important; /* Xóa bỏ zebra striping đen/trắng */
+    border-bottom: 1px solid #f1f5f9 !important;
+    transition: background-color 0.12s ease !important;
+}
+
+#nav-sidebar tr:hover {
+    background: #f8fafc !important;
+}
+
+#nav-sidebar tr.current-model {
+    background: #e0f2fe !important;
+    border-left: 3px solid #0284c7 !important;
+}
+
+#nav-sidebar th {
+    padding: 8px 12px 8px 16px !important;
+    text-align: left !important;
+    background: transparent !important;
+    font-weight: 500 !important;
+}
+
+#nav-sidebar th a,
+#nav-sidebar th a:link,
+#nav-sidebar th a:visited {
+    color: #334155 !important;
+    font-size: 12.5px !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+}
+
+#nav-sidebar th a:hover {
+    color: #0284c7 !important;
+}
+
+#nav-sidebar tr.current-model th a,
+#nav-sidebar tr.current-model th a:link,
+#nav-sidebar tr.current-model th a:visited {
+    color: #0369a1 !important;
+    font-weight: 700 !important;
+}
+
+#nav-sidebar td {
+    padding: 8px 14px 8px 6px !important;
+    text-align: right !important;
+    background: transparent !important;
+}
+
+#nav-sidebar td a.addlink {
+    color: #0284c7 !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+}
+
+#nav-sidebar td a.addlink:hover {
+    background: #e0f2fe !important;
+}
+
+/* 6. Main Content Area */
+#content {
+    padding: 20px 28px !important;
+    max-width: 1400px !important;
+    background: transparent !important;
+}
+
+.content-title,
+#content h1 {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    margin-bottom: 16px !important;
+    letter-spacing: -0.02em !important;
+}
+
+/* 7. Change List & Tables */
+#changelist {
+    background: transparent !important;
+}
+
+#changelist table {
+    width: 100% !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03) !important;
+}
+
+#changelist table thead th {
+    background: #f8fafc !important;
+    color: #475569 !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.04em !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding: 10px 14px !important;
+}
+
+#changelist table tbody td,
+#changelist table tbody th {
+    padding: 10px 14px !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    color: #1e293b !important;
+    font-size: 13px !important;
+    background: #ffffff !important;
+}
+
+#changelist table tbody tr:hover td,
+#changelist table tbody tr:hover th {
+    background-color: #f8fafc !important;
+}
+
+/* 8. Fieldsets & Forms */
+fieldset {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    padding: 18px 22px !important;
+    margin-bottom: 22px !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03) !important;
+}
+
+fieldset h2 {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    padding-bottom: 8px !important;
+    margin-bottom: 14px !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+
+.form-row {
+    padding: 10px 0 !important;
+    border-bottom: 1px solid #f8fafc !important;
+}
+
+.form-row:last-child {
+    border-bottom: none !important;
+}
+
+label {
+    color: #334155 !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+    margin-bottom: 4px !important;
+}
+
+.help, p.help {
+    color: #64748b !important;
+    font-size: 12px !important;
+    margin-top: 4px !important;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="url"],
+input[type="number"],
+input[type="file"],
+select,
+textarea {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 6px !important;
+    padding: 8px 12px !important;
+    font-size: 13px !important;
+    outline: none !important;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+    box-sizing: border-box !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #0284c7 !important;
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15) !important;
+}
+
+/* 9. Submit Buttons & Toolbars */
+.submit-row {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    padding: 14px 20px !important;
+    margin-top: 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02) !important;
+}
+
+.submit-row input[type="submit"],
+.button, 
+input[type="submit"] {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 8px 18px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: background 0.15s ease !important;
+}
+
+.submit-row input[type="submit"]:hover,
+.button:hover {
+    background: #0369a1 !important;
+}
+
+.submit-row a.deletelink {
+    background: #fee2e2 !important;
+    color: #b91c1c !important;
+    border: 1px solid #fca5a5 !important;
+    border-radius: 6px !important;
+    padding: 8px 14px !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    height: auto !important;
+    line-height: normal !important;
+}
+
+.submit-row a.deletelink:hover {
+    background: #fecaca !important;
+}
+
+.object-tools li a {
+    background: #ffffff !important;
+    color: #334155 !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 6px !important;
+    padding: 6px 14px !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02) !important;
+}
+
+.object-tools li a:hover {
+    background: #f8fafc !important;
+    color: #0f172a !important;
+}

@@ -1,0 +1,163 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:"BIM Lab Admin" }}{% endblock %}
+
+{% block dark-mode-vars %}{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/admin_theme.css' %}?v=20261009_v3">
+<style>
+/* =========================================================
+   SIDEBAR HARD-LOCK: Chống triệt để chữ vàng, chữ trắng tàng hình và sọc zebra
+   ========================================================= */
+:root, html, body {
+    color-scheme: light !important;
+    --header-color: #0f172a !important;
+    --body-quiet-color: #64748b !important;
+    --darkened-bg: #f8fafc !important;
+    --body-bg: #f8fafc !important;
+    --selected-row: #e0f2fe !important;
+}
+
+#nav-sidebar {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    border-right: 1px solid #e2e8f0 !important;
+}
+
+#nav-sidebar #nav-filter {
+    background-color: #f8fafc !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding: 10px 12px !important;
+}
+
+#nav-sidebar #nav-filter input {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 6px !important;
+    padding: 6px 10px !important;
+    font-size: 12px !important;
+    width: 100% !important;
+}
+
+/* Tiêu đề nhóm (App Headers - Bỏ hẳn chữ vàng #ffc và chữ trắng tàng hình) */
+#nav-sidebar .module caption,
+#nav-sidebar .module caption a,
+#nav-sidebar .module caption a:link,
+#nav-sidebar .module caption a:visited,
+#nav-sidebar .current-app .section,
+#nav-sidebar .current-app .section:link,
+#nav-sidebar .current-app .section:visited,
+#nav-sidebar .section,
+#nav-sidebar .section:link,
+#nav-sidebar .section:visited,
+#nav-sidebar a.section,
+#nav-sidebar a.section:link,
+#nav-sidebar a.section:visited {
+    background: #f1f5f9 !important;
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    padding: 9px 14px !important;
+    display: block !important;
+    text-align: left !important;
+    text-decoration: none !important;
+    border-top: 1px solid #e2e8f0 !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+}
+
+/* Bảng models: Ép nền trắng đồng bộ, triệt tiêu toàn bộ sọc đen zebra */
+#nav-sidebar table {
+    width: 100% !important;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    border-collapse: collapse !important;
+}
+
+#nav-sidebar tr,
+#nav-sidebar tr:nth-child(even),
+#nav-sidebar tr:nth-child(odd) {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    transition: background-color 0.1s ease !important;
+}
+
+#nav-sidebar tr:hover,
+#nav-sidebar tr:nth-child(even):hover,
+#nav-sidebar tr:nth-child(odd):hover {
+    background: #f8fafc !important;
+    background-color: #f8fafc !important;
+}
+
+#nav-sidebar tr.current-model,
+#nav-sidebar tr.current-model:nth-child(even),
+#nav-sidebar tr.current-model:nth-child(odd) {
+    background: #e0f2fe !important;
+    background-color: #e0f2fe !important;
+    border-left: 3px solid #0284c7 !important;
+}
+
+#nav-sidebar th a,
+#nav-sidebar th a:link,
+#nav-sidebar th a:visited {
+    color: #334155 !important;
+    font-size: 12.5px !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+}
+
+#nav-sidebar th a:hover {
+    color: #0284c7 !important;
+}
+
+#nav-sidebar tr.current-model th a,
+#nav-sidebar tr.current-model th a:link,
+#nav-sidebar tr.current-model th a:visited {
+    color: #0369a1 !important;
+    font-weight: 700 !important;
+}
+
+#nav-sidebar td a.addlink {
+    color: #0284c7 !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+}
+
+#nav-sidebar td a.addlink:hover {
+    background: #e0f2fe !important;
+}
+</style>
+{% endblock %}
+
+{% block branding %}
+<div id="site-name">
+    <a href="{% url 'admin:index' %}" style="display: flex; align-items: center; text-decoration: none;">
+        <span style="font-size: 15px; font-weight: 700; color: #ffffff; letter-spacing: -0.01em;">BIMLab Docs Administration</span>
+    </a>
+</div>
+{% endblock %}
+
+{% block userlinks %}
+<button type="button" class="btn-trigger-guide-modal" style="background: rgba(255, 255, 255, 0.12); color: #ffffff !important; border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 4px; padding: 4px 10px; font-weight: 600; font-size: 12px; cursor: pointer; margin-right: 10px; display: inline-flex; align-items: center; gap: 5px; transition: background 0.15s ease;">
+    📖 Hướng Dẫn Sử Dụng
+</button>
+<a href="{% url 'doc_list' %}" target="_blank" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8 !important; border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 4px; padding: 4px 10px; font-weight: 600; text-decoration: none; margin-right: 12px; display: inline-flex; align-items: center; gap: 4px;">
+    🌐 Mở Trang Viewer ↗
+</a>
+{{ block.super }}
+{% endblock %}
+
+{% block footer %}
+{{ block.super }}
+{% include "admin/guide_modal.html" %}
+{% endblock %}

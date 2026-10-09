@@ -1,0 +1,60 @@
+{% extends "admin/index.html" %}
+{% load i18n static %}
+
+{% block content %}
+<div id="content-main">
+
+  <!-- Hướng dẫn sử dụng nhanh (Đơn giản, không logo) -->
+  <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 18px 20px; margin-bottom: 20px;">
+    
+    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 14px;">
+      <div>
+        <h2 style="font-size: 14.5px; font-weight: 700; color: #0f172a; margin: 0 0 2px 0; border: none; padding: 0;">
+          Hướng dẫn tạo & quản lý quy trình
+        </h2>
+        <div style="font-size: 12px; color: #64748b;">
+          Tóm tắt 3 bước cơ bản để tạo mới và xuất bản tài liệu kỹ thuật
+        </div>
+      </div>
+      <button type="button" class="btn-trigger-guide-modal" style="background: #ffffff; color: #0284c7 !important; border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px 14px; font-weight: 600; font-size: 12px; cursor: pointer;">
+        📖 Xem hướng dẫn chi tiết
+      </button>
+    </div>
+
+    <!-- 3 Bước gọn gàng -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
+      
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px 14px;">
+        <div style="font-weight: 700; font-size: 12.5px; color: #0284c7; margin-bottom: 4px;">
+          1. Thông tin quy trình
+        </div>
+        <div style="font-size: 11.5px; color: #475569; line-height: 1.5;">
+          Đặt mã quy trình (ví dụ <code>ARC-Model-01</code>), chọn Bộ môn và Luồng công việc tương ứng.
+        </div>
+      </div>
+
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px 14px;">
+        <div style="font-weight: 700; font-size: 12.5px; color: #0369a1; margin-bottom: 4px;">
+          2. Nội dung (Markdown hoặc HTML)
+        </div>
+        <div style="font-size: 11.5px; color: #475569; line-height: 1.5;">
+          Viết Markdown (có xem trước, paste ảnh <b>Ctrl+V</b> lưu S3) <i>hoặc</i> kéo thả file <b>.html</b> lưu trực tiếp vào CSDL.
+        </div>
+      </div>
+
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px 14px;">
+        <div style="font-weight: 700; font-size: 12.5px; color: #047857; margin-bottom: 4px;">
+          3. Xuất bản tài liệu
+        </div>
+        <div style="font-size: 11.5px; color: #475569; line-height: 1.5;">
+          Đổi trạng thái sang <b>PUBLISHED</b> và bấm Lưu để quy trình xuất hiện trên Trang xem tài liệu công cộng.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bảng danh sách ứng dụng Django gốc -->
+  {% include "admin/app_list.html" with app_list=app_list show_changelinks=True %}
+</div>
+{% endblock %}
