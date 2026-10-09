@@ -11,8 +11,10 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-bimlab-workflow-v3-secret-
 DEBUG = os.getenv('DEBUG', 'True').lower() in ('true', '1', 't')
 
 allowed_hosts_raw = os.getenv('ALLOWED_HOSTS', '*')
-ALLOWED_HOSTS = [h.strip() for h in allowed_hosts_raw.split(',') if h.strip()]
-if '*' not in ALLOWED_HOSTS:
+ALLOWED_HOSTS = [h.strip().strip("'\"") for h in allowed_hosts_raw.split(',') if h.strip()]
+if '*' in ALLOWED_HOSTS or allowed_hosts_raw.strip().strip("'\"") == '*':
+    ALLOWED_HOSTS = ['*']
+else:
     ALLOWED_HOSTS.extend(['localhost', '127.0.0.1', 'web', 'nginx'])
 
 INSTALLED_APPS = [
